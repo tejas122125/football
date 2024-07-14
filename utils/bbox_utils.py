@@ -18,7 +18,7 @@ def get_foot_position(bbox):
     return int((x1+x2)/2),int(y2)
 
 
-def are_rgb_close(rgb1, rgb2, threshold=60):
+def are_rgb_close(rgb1, rgb2, threshold=80):
     """
     16,55
     Checks if two RGB tuples are close based on Euclidean distance.
