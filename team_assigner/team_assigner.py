@@ -1,5 +1,5 @@
 from sklearn.cluster import KMeans
-
+from utils import are_rgb_close
 class TeamAssigner:
     def __init__(self):
         self.team_colors = {}
@@ -40,27 +40,35 @@ class TeamAssigner:
 
 
     def assign_team_color(self,frame, player_detections):
-        
         player_colors = []
         for _, player_detection in player_detections.items():
             bbox = player_detection["bbox"]
             player_color =  self.get_player_color(frame,bbox)
+
+            
+            
             player_colors.append(player_color)
-        
         kmeans = KMeans(n_clusters=2, init="k-means++",n_init=10)
         kmeans.fit(player_colors)
 
         self.kmeans = kmeans
+        # changing
+        # print(kmeans.cluster_centers_)
 
         self.team_colors[1] = kmeans.cluster_centers_[0]
         self.team_colors[2] = kmeans.cluster_centers_[1]
 
 
     def get_player_team(self,frame,player_bbox,player_id):
+        testgoalkeeper = [24,18,5]
+        
         if player_id in self.player_team_dict:
             return self.player_team_dict[player_id]
 
         player_color = self.get_player_color(frame,player_bbox)
+        # testing goalkeeper
+        if are_rgb_close(testgoalkeeper,player_color):
+            print("goalkeeper found with color",player_color,player_id)
 
         team_id = self.kmeans.predict(player_color.reshape(1,-1))[0]
         team_id+=1

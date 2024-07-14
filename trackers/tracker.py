@@ -47,10 +47,10 @@ class Tracker:
 
     def get_object_tracks(self, frames, read_from_stub=False, stub_path=None):
         
-        if read_from_stub and stub_path is not None and os.path.exists(stub_path):
-            with open(stub_path,'rb') as f:
-                tracks = pickle.load(f)
-            return tracks
+        # if read_from_stub and stub_path is not None and os.path.exists(stub_path):
+        #     with open(stub_path,'rb') as f:
+        #         tracks = pickle.load(f)
+        #     return tracks
 
         detections = self.detect_frames(frames)
 
@@ -183,7 +183,7 @@ class Tracker:
 
         return frame
 
-    def draw_annotations(self,video_frames, tracks,team_ball_control):
+    def draw_annotations(self,video_frames, tracks,team_ball_control=None):
         output_video_frames= []
         for frame_num, frame in enumerate(video_frames):
             frame = frame.copy()
@@ -210,7 +210,7 @@ class Tracker:
 
 
             # Draw Team Ball Control
-            frame = self.draw_team_ball_control(frame, frame_num, team_ball_control)
+            # frame = self.draw_team_ball_control(frame, frame_num, team_ball_control)
 
             output_video_frames.append(frame)
 
