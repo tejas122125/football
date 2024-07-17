@@ -1,5 +1,5 @@
 import math
-
+import pandas as pd
 def get_center_of_bbox(bbox):
     x1,y1,x2,y2 = bbox
     return int((x1+x2)/2),int((y1+y2)/2)
@@ -38,3 +38,11 @@ def are_rgb_close(rgb1, rgb2, threshold=80):
     
     # Check if distance is within threshold
     return distance <= threshold
+
+
+def make_dataframe_passing(team1,team2):
+    team1df = pd.DataFrame(team1)
+    team1df.to_csv("./data/team1.csv")
+    
+    team2df = pd.DataFrame(team2)
+    team2df.to_csv("./data/team2.csv")
