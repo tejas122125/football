@@ -1,5 +1,5 @@
 from utils import make_dataframe_passing
-
+from collections import defaultdict 
 class Pass_Assigner:
     def __init__(self) -> None:
             pass
@@ -12,10 +12,15 @@ class Pass_Assigner:
         count2 =-1
         past_2 ={}
         team2_dict = []
+       
+        player_stats = defaultdict(lambda: {'speed': [],'distance':[]})
         
         
         for frame_number,frame in enumerate(tracks['players']):
             for id,info in frame.items():
+                if info.get('speed') and info.get('distance') is not None:
+                    player_stats[id]['speed'].append(info['speed'])
+                    player_stats[id]['distance'].append(info['distance'])
                 if info.get('has_ball') and info.get('position_transformed') is not None :
                     startx = info['position_transformed'][0]
                     starty = info['position_transformed'][1]
@@ -83,10 +88,13 @@ class Pass_Assigner:
                                     }
                                 team2_dict.append(data)
                                 
+                                # preprocess playrstas
                                 
-        make_dataframe_passing(team1=team1_dict,team2=team2_dict)                        
+                                
+                                
+        make_dataframe_passing(team1=team1_dict,team2=team2_dict,player_stats = player_stats)                        
 
-        # print(team1_dict)        
+        print(team2_dict)        
                             
                             
                                 

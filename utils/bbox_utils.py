@@ -1,5 +1,7 @@
 import math
 import pandas as pd
+from collections import defaultdict 
+
 def get_center_of_bbox(bbox):
     x1,y1,x2,y2 = bbox
     return int((x1+x2)/2),int((y1+y2)/2)
@@ -40,9 +42,35 @@ def are_rgb_close(rgb1, rgb2, threshold=80):
     return distance <= threshold
 
 
-def make_dataframe_passing(team1,team2):
+def make_dataframe_passing(team1,team2,player_stats):
     team1df = pd.DataFrame(team1)
-    team1df.to_csv("./data/team1.csv")
+    team1df.to_csv("./data/team1.csv",index=False)
     
     team2df = pd.DataFrame(team2)
-    team2df.to_csv("./data/team2.csv")
+    team2df.to_csv("./data/team2.csv",index=False)
+    
+    player_stats = pd.DataFrame(player_stats)
+    player_stats.to_csv("./data/player_stats.csv",index=False)
+    
+    
+def pre_process_stats(self,data):
+    player_stats = defaultdict(lambda: {'max_speed':0,'avg_speed':0,'total_distance':0})
+    
+    for id,da in data.items():
+        speeds = da['speed']
+        distances = da['distance']
+        avg_speed = 0
+        max_speed = 0
+        if len(speeds) >0:
+            avg_speed  = sum(speeds)/len(speeds)    
+            max_speed = max(speeds)
+            
+        total_dis = sum(distances)    
+        
+        player_stats[id]['max_speed'] = max_speed
+        player_stats[id]['avg_speed'] = avg_speed
+        player_stats[id]['total_distance'] = total_dis
+        
+        return player_stats
+            
+            
