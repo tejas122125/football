@@ -1,4 +1,4 @@
-from utils import make_dataframe_passing
+from utils import make_dataframe_passing,pre_process_stats
 from collections import defaultdict 
 class Pass_Assigner:
     def __init__(self) -> None:
@@ -13,19 +13,22 @@ class Pass_Assigner:
         past_2 ={}
         team2_dict = []
        
-        player_stats = defaultdict(lambda: {'speed': [],'distance':[]})
+        player_stats1 = defaultdict(lambda: {'speed': [],'distance':[]})
+        player_stats2 = defaultdict(lambda: {'speed': [],'distance':[]})
+        
         
         
         for frame_number,frame in enumerate(tracks['players']):
             for id,info in frame.items():
-                if info.get('speed') and info.get('distance') is not None:
-                    player_stats[id]['speed'].append(info['speed'])
-                    player_stats[id]['distance'].append(info['distance'])
+
                 if info.get('has_ball') and info.get('position_transformed') is not None :
                     startx = info['position_transformed'][0]
                     starty = info['position_transformed'][1]
                     
                     if info['team'] == 1:
+                        if info.get('speed') and info.get('distance') is not None:
+                            player_stats1[id]['speed'].append(info['speed'])
+                            player_stats1[id]['distance'].append(info['distance'])
                         if count1 == -1:
                             
                             past_1 = {
@@ -58,6 +61,9 @@ class Pass_Assigner:
                                 team1_dict.append(data)
                             
                     if info['team'] == 2:
+                        if info.get('speed') and info.get('distance') is not None:
+                            player_stats2[id]['speed'].append(info['speed'])
+                            player_stats2[id]['distance'].append(info['distance'])
                         if count2 == -1:
                             past_2 = {
                                 "from_id" : id,
@@ -90,9 +96,12 @@ class Pass_Assigner:
                                 
                                 # preprocess playrstas
                                 
+        pro_stats1 =  pre_process_stats(data=player_stats1)    
+        pro_stats2 =  pre_process_stats(data=player_stats2)                       
+                           
                                 
                                 
-        make_dataframe_passing(team1=team1_dict,team2=team2_dict,player_stats = player_stats)                        
+        make_dataframe_passing(team1=team1_dict,team2=team2_dict,player_stats1 = pro_stats1,player_stats2=pro_stats2)                        
 
         print(team2_dict)        
                             
