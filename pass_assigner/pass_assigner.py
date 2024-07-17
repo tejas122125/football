@@ -1,3 +1,5 @@
+from utils import make_dataframe_passing
+
 class Pass_Assigner:
     def __init__(self) -> None:
             pass
@@ -80,8 +82,11 @@ class Pass_Assigner:
                                         "endy" : None
                                     }
                                 team2_dict.append(data)
+                                
+                                
+        make_dataframe_passing(team1=team1_dict,team2=team2_dict)                        
 
-        print(team1_dict)        
+        # print(team1_dict)        
                             
                             
                                 
