@@ -60,6 +60,7 @@ def pre_process_stats(data):
     player_stats = defaultdict(lambda: {'max_speed':0,'avg_speed':0,'total_distance':0})
     
     for id,da in data.items():
+        balltouchcount = da['balltouchcount']
         speeds = da['speed']
         distances = da['distance']
         avg_speed = 0
@@ -72,6 +73,8 @@ def pre_process_stats(data):
         player_stats[id]['max_speed'] = round(max_speed,2)
         player_stats[id]['avg_speed'] = round(avg_speed,2)
         player_stats[id]['total_distance'] = round(total_dis,2)
+        player_stats[id]['balltouchcount'] = balltouchcount
+        
         
     return player_stats
             

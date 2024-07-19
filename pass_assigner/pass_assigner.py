@@ -13,22 +13,29 @@ class Pass_Assigner:
         past_2 ={}
         team2_dict = []
        
-        player_stats1 = defaultdict(lambda: {'speed': [],'distance':[]})
-        player_stats2 = defaultdict(lambda: {'speed': [],'distance':[]})
+        player_stats1 = defaultdict(lambda: {'speed': [],'distance':[],'balltouchcount' : 0})
+        player_stats2 = defaultdict(lambda: {'speed': [],'distance':[],'balltouchcount':0})
         
         
         
         for frame_number,frame in enumerate(tracks['players']):
             for id,info in frame.items():
+                if info['team'] == 1:
+                    if info.get('speed') and info.get('distance') is not None:
+                        player_stats1[id]['speed'].append(info['speed'])
+                        player_stats1[id]['distance'].append(info['distance'])
+                        
+                if info['team'] == 2:
+                    if info.get('speed') and info.get('distance') is not None:
+                        player_stats2[id]['speed'].append(info['speed'])
+                        player_stats2[id]['distance'].append(info['distance'])        
 
                 if info.get('has_ball') and info.get('position_transformed') is not None :
                     startx = info['position_transformed'][0]
                     starty = info['position_transformed'][1]
                     
                     if info['team'] == 1:
-                        if info.get('speed') and info.get('distance') is not None:
-                            player_stats1[id]['speed'].append(info['speed'])
-                            player_stats1[id]['distance'].append(info['distance'])
+                        player_stats1[id]['balltouchcount']+=1
                         if count1 == -1:
                             
                             past_1 = {
@@ -61,9 +68,8 @@ class Pass_Assigner:
                                 team1_dict.append(data)
                             
                     if info['team'] == 2:
-                        if info.get('speed') and info.get('distance') is not None:
-                            player_stats2[id]['speed'].append(info['speed'])
-                            player_stats2[id]['distance'].append(info['distance'])
+                        player_stats2[id]['balltouchcount']+=1
+
                         if count2 == -1:
                             past_2 = {
                                 "from_id" : id,
