@@ -1,10 +1,60 @@
-from utils import make_dataframe_passing,pre_process_stats
+from utils import make_dataframe_passing,pre_process_stats,make_dataframe_passing_player
+import pandas as pd
 from collections import defaultdict 
+
+
+
+def get_pass_percent_team1(id):
+        team1df = pd.read_csv("./data/team1.csv")
+        team1df['id'] = range(1, len(team1df) + 1)
+        #now we need to find the average locations and counts of the passes
+        average_locations = team1df.groupby('from_id').agg({'startx':['mean'],'starty':['mean','count']})
+        average_locations.columns = ['startx','starty','count']
+        average_locations = average_locations.reset_index()
+        totalpass = sum(average_locations['count'])
+        totalpass
+        passpercent = []
+        if id in average_locations['from_id']:
+            for i in average_locations['count']:
+                passpercent.append(round(((i/totalpass)*100),2))
+            average_locations['passpercent'] = passpercent
+            passpercent = average_locations[average_locations['from_id'] == id]['passpercent']
+            print(passpercent)
+            return passpercent
+        else:
+            return 0
+    
+    
+def get_pass_percent_team2(id):
+        team2df = pd.read_csv("./data/team2.csv")
+        team2df['id'] = range(1, len(team2df) + 1)
+        #now we need to find the average locations and counts of the passes
+        average_locations = team2df.groupby('from_id').agg({'startx':['mean'],'starty':['mean','count']})
+        average_locations.columns = ['startx','starty','count']
+        average_locations = average_locations.reset_index()
+        totalpass = sum(average_locations['count'])
+        totalpass
+        passpercent = []
+        if id in average_locations['from_id']:
+            for i in average_locations['count']:
+                passpercent.append(round(((i/totalpass)*100),2))
+            average_locations['passpercent'] = passpercent
+            passpercent = average_locations[average_locations['from_id'] == id]['passpercent']
+            print(passpercent)
+            return passpercent
+        else:
+            return 0
+            
+        
+
+
 class Pass_Assigner:
     def __init__(self) -> None:
             pass
     
     
+    
+            
     def pass_assigner(self,tracks):
         past_1 = {}
         team1_dict = []
@@ -13,8 +63,8 @@ class Pass_Assigner:
         past_2 ={}
         team2_dict = []
        
-        player_stats1 = defaultdict(lambda: {'speed': [],'distance':[],'balltouchcount' : 0})
-        player_stats2 = defaultdict(lambda: {'speed': [],'distance':[],'balltouchcount':0})
+        player_stats1 = defaultdict(lambda: {'speed': [],'distance':[],'balltouchcount' : 0,"passpercent":0})
+        player_stats2 = defaultdict(lambda: {'speed': [],'distance':[],'balltouchcount':0,"passpercent":0})
         
         
         
@@ -102,14 +152,25 @@ class Pass_Assigner:
                                 
                                 # preprocess playrstas
                                 
-        pro_stats1 =  pre_process_stats(data=player_stats1)    
-        pro_stats2 =  pre_process_stats(data=player_stats2)                       
+                     
                            
-                                
-                                
-        make_dataframe_passing(team1=team1_dict,team2=team2_dict,player_stats1 = pro_stats1,player_stats2=pro_stats2)                        
-
-        print(team2_dict)        
+    # very dirty written code  
+        make_dataframe_passing(team1=team1_dict,team2=team2_dict)          
+        
+        for team1 in team1_dict:
+            id = team1['from_id']
+            passpercent = get_pass_percent_team1(id=id)
+            player_stats1[id]['passpercent']=passpercent
+            
+        for team1 in team2_dict:
+            id = team1['from_id']
+            passpercent = get_pass_percent_team2(id=id)
+            player_stats2[id]['passpercent']=passpercent    
+                      
+        pro_stats1 =  pre_process_stats(data=player_stats1)    
+        pro_stats2 =  pre_process_stats(data=player_stats2)  
+        make_dataframe_passing_player(pro_stats1,pro_stats2)
+        print(pro_stats1)        
                             
                             
                                 

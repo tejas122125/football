@@ -42,13 +42,14 @@ def are_rgb_close(rgb1, rgb2, threshold=80):
     return distance <= threshold
 
 
-def make_dataframe_passing(team1,team2,player_stats1,player_stats2):
+def make_dataframe_passing(team1,team2):
     team1df = pd.DataFrame(team1)
     team1df.to_csv("./data/team1.csv",index=False)
     
     team2df = pd.DataFrame(team2)
     team2df.to_csv("./data/team2.csv",index=False)
     
+def make_dataframe_passing_player(player_stats1,player_stats2):
     player_stats1 = pd.DataFrame(player_stats1)
     player_stats1.to_csv("./data/player_stats1.csv",index=False)
     
@@ -57,12 +58,13 @@ def make_dataframe_passing(team1,team2,player_stats1,player_stats2):
     
 
 def pre_process_stats(data):
-    player_stats = defaultdict(lambda: {'max_speed':0,'avg_speed':0,'total_distance':0})
+    player_stats = defaultdict(lambda: {'max_speed':0,'avg_speed':0,'total_distance':0,'passpercent':0})
     
     for id,da in data.items():
         balltouchcount = da['balltouchcount']
         speeds = da['speed']
         distances = da['distance']
+        passpercent =da['passpercent']
         avg_speed = 0
         max_speed = 0
         if len(speeds) >0:
@@ -74,6 +76,7 @@ def pre_process_stats(data):
         player_stats[id]['avg_speed'] = round(avg_speed,2)
         player_stats[id]['total_distance'] = round(total_dis,2)
         player_stats[id]['balltouchcount'] = balltouchcount
+        player_stats[id]['passpercent'] = passpercent
         
         
     return player_stats
