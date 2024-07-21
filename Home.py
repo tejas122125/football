@@ -1,5 +1,5 @@
 import streamlit as st
-import tempfile
+
 import os
 
 # Function to load sample video
@@ -9,10 +9,10 @@ def load_sample_video():
 
 # Function to save uploaded file
 def save_uploaded_file(uploaded_file):
-    save_dir = "uploaded_videos"
+    save_dir = "user_input/"
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
-    file_path = os.path.join(save_dir, uploaded_file.name)
+    file_path = os.path.join(save_dir, "hui.mp4")
     with open(file_path, "wb") as f:
         f.write(uploaded_file.getbuffer())
     return file_path
