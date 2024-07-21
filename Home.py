@@ -7,6 +7,17 @@ def load_sample_video():
     sample_video_path = "./input_videos/test1.mp4"  
     return sample_video_path
 
+# Function to save uploaded file
+def save_uploaded_file(uploaded_file):
+    save_dir = "uploaded_videos"
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    file_path = os.path.join(save_dir, uploaded_file.name)
+    with open(file_path, "wb") as f:
+        f.write(uploaded_file.getbuffer())
+    return file_path
+
+
 # Streamlit app
 def main():
     st.title("Video Upload App")
@@ -20,10 +31,9 @@ def main():
 
     if uploaded_file is not None:
         # Save the uploaded file to a temporary file
-        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
-        temp_file.write(uploaded_file.read())
-        temp_file.close()
-        st.session_state.video_path = temp_file.name
+        file_path = save_uploaded_file(uploaded_file)
+
+        st.session_state.video_path = file_path
         st.success("Uploaded video successfully")
 
     # Option to select a sample video
