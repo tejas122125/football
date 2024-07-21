@@ -4,7 +4,7 @@ import os
 
 # Function to load sample video
 def load_sample_video():
-    sample_video_path = "sample_video.mp4"  # Path to your sample video
+    sample_video_path = "./input_videos/test1.mp4"  
     return sample_video_path
 
 # Streamlit app
