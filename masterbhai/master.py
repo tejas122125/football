@@ -9,9 +9,9 @@ from view_transformer import ViewTransformer
 from speed_and_distance_estimator import SpeedAndDistance_Estimator
 from pass_assigner import Pass_Assigner
 
-def main():
+def mastertejas( path):
         # Read Video
-    video_frames = read_video('input_videos/test1.mp4')
+    video_frames = read_video(path)
 
     # Initialize Tracker
     tracker = Tracker('models/finetuned.pt')
@@ -103,6 +103,3 @@ def main():
 
 
     save_video(output_video_frames, 'output_videos/output_video.avi')
-if __name__ == "__main__":
-    
-    main()    

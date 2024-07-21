@@ -17,8 +17,8 @@ def get_pass_percent_fig(value):
     return pass_percernt_gauge(value=value)
     
 
-def team1():
-    dfteam1 = pd.read_csv("./data/player_stats1.csv")
+def team2():
+    dfteam1 = pd.read_csv("./data/player_stats2.csv")
     ids = dfteam1.columns.to_list()
     for id in ids : 
         maxspeed =  dfteam1[id][0]
@@ -55,8 +55,8 @@ def team1():
 
 
 def main():
-    st.title("TEAM 1")
-    team1()
+    st.title("TEAM 2")
+    team2()
 
 if __name__ == "__main__":
     main()

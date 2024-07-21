@@ -1,5 +1,5 @@
 import streamlit as st
-
+from masterbhai import master
 import os
 
 # Function to load sample video
@@ -20,7 +20,7 @@ def save_uploaded_file(uploaded_file):
 
 # Streamlit app
 def main():
-    st.title("Video Upload App")
+    st.title("Football Analyzer  App")
 
     # Initialize session state for storing the video file path
     if 'video_path' not in st.session_state:
@@ -45,6 +45,9 @@ def main():
     if st.session_state.video_path:
         st.video(st.session_state.video_path)
         st.write(f"Current video path: {st.session_state.video_path}")
+        
+        
+    mastertejas(st.session_state.video_path)    
 
 if __name__ == "__main__":
     main()

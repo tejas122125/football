@@ -4,5 +4,7 @@ test.mp4
 test1.mp4
 *.avi
 user_input
+input_videos
+output_videos
 
 __pycache__
