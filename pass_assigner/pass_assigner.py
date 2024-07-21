@@ -171,6 +171,7 @@ class Pass_Assigner:
         pro_stats1 =  pre_process_stats(data=player_stats1)    
         pro_stats2 =  pre_process_stats(data=player_stats2)  
         make_dataframe_passing_player(pro_stats1,pro_stats2)
+        print(pro_stats2)
                             
                             
                                 
