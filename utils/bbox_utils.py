@@ -70,7 +70,7 @@ def pre_process_stats(data):
         if len(speeds) >0:
             avg_speed  = sum(speeds)/len(speeds)    
             max_speed = max(speeds)
-            
+            # calculation
         total_dis = sum(distances)   
         player_stats[id]['max_speed'] = round(max_speed,2)
         player_stats[id]['avg_speed'] = round(avg_speed,2)
